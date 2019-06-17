@@ -7,9 +7,9 @@ General Analysis of reddit comment on April 2012 and influence of worlwide event
 The mail goal of the project is perform a exploratory data analysis on reddit coments , our main goal is answer the following questions:
 
 1. Number of comments each day of the month 
-⋅⋅* Over all web-page and on specific reddit topic
+* Over all web-page and on specific reddit topic
 2. Number of comments at each hour of the day
-⋅⋅* Over all web-page and on specific reddit topic
+* Over all web-page and on specific reddit topic
 3. Influence of worldwide events on reddit (all web and topic-specific) users behaviour 
-⋅⋅* Avengers première
-⋅⋅* Game of thrones new episode
+* Avengers première
+* Game of thrones new episode

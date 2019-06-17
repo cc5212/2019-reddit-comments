@@ -21,7 +21,7 @@ Due to the high quantity of record we worked with only a month of data, the mont
 The file we used can be find in the following link https://files.pushshift.io/reddit/comments/, and the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1,786,140,247 bytes and once descompressed 10,994,516,204 bytes.
 
 The data contains 19044534 JSON Objects, each object have the following structure as show on Image 1
-*Image 1
+*Image 1*
 ![Imgur](https://i.imgur.com/OvWB9rU.jpg)# Methods
 
 # Results

@@ -1,5 +1,5 @@
 # 2019-reddit-comments
-General Analysis of reddit comment on April 2012 and influence of worlwide events, with Apache Pig. (Gustavo Álvarez, Bastián Matamala, Tomás Leyton. Group 14)
+General Analysis of reddit comment on April 2012 and influence of worlwide events, with Apache Spark. (Gustavo Álvarez, Bastián Matamala, Tomás Leyton. Group 14)
 
 
 # Overview

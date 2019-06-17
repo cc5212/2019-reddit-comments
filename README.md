@@ -22,8 +22,7 @@ The file we used can be find in the following link https://files.pushshift.io/re
 
 The data contains 19044534 JSON Objects, each object have the following structure as show on Image 1
 
-![alt text](http://2.bp.blogspot.com/-gqBPbEdWd48/UKvbgELTjKI/AAAAAAAAAeg/gQthQ8UXpf8/s320/kurapica-485x401.jpeg)
-
+[Imgur](https://i.imgur.com/lGjsXnl.jpg)
 # Methods
 
 # Results

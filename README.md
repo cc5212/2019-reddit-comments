@@ -13,3 +13,14 @@ The mail goal of the project is perform a exploratory data analysis on reddit co
 3. Influence of worldwide events on reddit  users behaviour (all web and topic-specific)
 * Avengers première
 * Game of thrones new episode
+
+# Data
+
+# Methods
+
+# Results
+
+# Conclusion
+
+# Appendix
+

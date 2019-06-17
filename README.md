@@ -10,6 +10,6 @@ The mail goal of the project is perform a exploratory data analysis on reddit co
 * Over all web-page and on specific reddit topic
 2. Number of comments at each hour of the day
 * Over all web-page and on specific reddit topic
-3. Influence of worldwide events on reddit (all web and topic-specific) users behaviour 
+3. Influence of worldwide events on reddit  users behaviour (all web and topic-specific)
 * Avengers première
 * Game of thrones new episode

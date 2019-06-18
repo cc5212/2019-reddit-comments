@@ -1,24 +1,18 @@
 package org.mdp.spark.cli;
 
-import org.apache.commons.net.ntp.TimeStamp;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.sql.functions;
 
 import org.apache.spark.sql.SparkSession;
 import scala.Tuple2;
 import scala.Tuple3;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Comparator;
-import java.util.Date;
 
-import static org.apache.spark.sql.functions.dayofmonth;
 
 public class CountBySubreddit {
     /**
@@ -104,11 +98,6 @@ public class CountBySubreddit {
         count_by_subreddit_day.cache();
         count_by_subreddit_hour.cache();
 
-        // How season 2 of GoT evolves over time
-        JavaPairRDD<Tuple3<String, String, Integer>, Integer> got_results = count_by_subreddit_day.filter(
-                row -> row._1()._2().equals("gameofthrones") || row._1()._2().equals("asoiaf")
-        );
-
         // A new map in order to sort by the count of comments
         JavaPairRDD<Integer, String> sorted_results = count_by_subreddit.mapToPair(
                 row -> new Tuple2<Integer, String>(row._2(), row._1()._2())
@@ -132,6 +121,9 @@ public class CountBySubreddit {
     }
 }
 
+/**
+ * Comparator to sort by day/hour and then by count of comments
+ */
 class TupleComparatorDayComments implements Comparator<Tuple2<Integer,Integer>>, Serializable {
     private static final long serialVersionUID = 1L;
     @Override

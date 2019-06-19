@@ -41,7 +41,7 @@ public class Main {
 
 			long time1 = System.currentTimeMillis();
 
-			System.err.println("time elapsed " + (time1-time)/1000 + " seconds");
+			System.out.println("time elapsed " + (time1-time)/1000 + " seconds");
 		} catch (Throwable e) {
 			e.printStackTrace();
 			usage(e.toString());

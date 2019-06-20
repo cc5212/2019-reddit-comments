@@ -1,13 +1,16 @@
 package org.mdp.spark.cli;
 
+import org.apache.spark.SparkConf;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.storage.StorageLevel;
 import scala.Tuple2;
 import scala.Tuple3;
+import scala.Tuple4;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -22,12 +25,12 @@ public class CountBySubreddit {
         System.setProperty("user.timezone", "UTC");
         System.setProperty("hadoop.home.dir", "C:/Program Files/Hadoop/");
         // In case there's an error in input arguments
-        if(args.length != 7) {
-            System.err.println("Usage arguments: inputPath commentsBySubreddit countBySubredditDay countBySubredditHour karmaPerHour totalCountDay totalCountHour");
+        if(args.length != 8) {
+            System.err.println("Usage arguments: inputPath commentsBySubreddit countBySubredditDay countBySubredditHour karmaPerHour totalCountDay totalCountHour similarSubreddits");
             System.exit(0);
         }
         // Run process
-        new CountBySubreddit().run(args[0],args[1], args[2], args[3], args[4], args[5], args[6]);
+        new CountBySubreddit().run(args[0],args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
     }
 
 
@@ -40,17 +43,17 @@ public class CountBySubreddit {
                     String countBySubredditHour,
                     String karmaPerHour,
                     String totalCountDay,
-                    String totalCountHour) {
-
+                    String totalCountHour,
+                    String similarSubreddits) {
         // Initialises a Spark Session with the name of the application and the (default) master settings.
-        SparkSession session = SparkSession.builder().master("local[*]").appName("jsonReader").getOrCreate();
+        SparkSession session = SparkSession.builder().master("local[*]").appName(CountBySubreddit.class.getName()).getOrCreate();
 
 
         // Load the first RDD from the input location (a local file, HDFS file, etc.)
         Dataset<Row> input_json = session.read().json(inputFilePath);
 
         // The rows we're interested in
-        JavaRDD<Row> inputRDD = input_json.select("subreddit_id", "subreddit", "author", "body", "created_utc", "score").toJavaRDD();
+        JavaRDD<Row> inputRDD = input_json.select("subreddit_id", "subreddit", "author", "created_utc", "score").toJavaRDD();
 
         inputRDD.cache(); // cache
 
@@ -65,16 +68,16 @@ public class CountBySubreddit {
         // Pairs key-value with the format ((subreddit_id, subreddit, day_of_month), 1)
         JavaPairRDD<Tuple3<String, String, Integer>, Integer> by_subreddit_day = inputRDD.mapToPair(
                 row -> new Tuple2<>(
-                        new Tuple3<String, String, Integer>(row.get(0).toString(), row.get(1).toString(), (new Timestamp((Long.parseLong(row.get(4).toString())) * 1000)).getDate()),
+                        new Tuple3<String, String, Integer>(row.get(0).toString(), row.get(1).toString(), (new Timestamp((Long.parseLong(row.get(3).toString())) * 1000)).getDate()),
                         1
                 )
         );
 
-        // Pairs key-value with the format ((subreddit_id, subreddit, hour_of_day), 1)
+        // Pairs key-value with the format ((subreddit_id, subreddit, hour_of_day), score)
         JavaPairRDD<Tuple3<String, String, Integer>, Tuple2<Integer, Integer>> by_subreddit_hour = inputRDD.mapToPair(
                 row -> new Tuple2<>(
-                        new Tuple3<String, String, Integer>(row.get(0).toString(), row.get(1).toString(), (new Timestamp((Long.parseLong(row.get(4).toString())) * 1000)).getHours()),
-                        new Tuple2<Integer, Integer>(1, Integer.parseInt(row.get(5).toString()))
+                        new Tuple3<String, String, Integer>(row.get(0).toString(), row.get(1).toString(), (new Timestamp((Long.parseLong(row.get(3).toString())) * 1000)).getHours()),
+                        new Tuple2<Integer, Integer>(1, Integer.parseInt(row.get(4).toString()))
                 )
         );
 
@@ -132,6 +135,35 @@ public class CountBySubreddit {
                 row -> new Tuple2<Integer, Integer>(row._1()._3(), row._2())
         ).reduceByKey(Integer::sum).sortByKey(true);
 
+        // Pairs (author, subreddit), but authors with comments with karma > 100
+        JavaPairRDD<String, String> redditors_by_subreddit = inputRDD.filter(row -> Integer.parseInt(row.get(4).toString()) > 100).mapToPair(
+                row -> new Tuple2<String, String>(row.get(2).toString(), row.get(1).toString())
+        );
+
+        redditors_by_subreddit.cache(); // cache
+
+        // Join in order to create (author, subreddit1, subreddit2), mapping all the possible
+        // combinations of subreddit where the author has commented.
+        JavaPairRDD<String, Tuple2<String, String>> join_subreddits = redditors_by_subreddit.join(redditors_by_subreddit);
+
+        // Pairs ((subreddit1, subreddit2), author) -> ((subreddit1, subreddit2), 1)
+        // -> ((subreddit1, subreddit2), count)
+        JavaPairRDD<Tuple2<String, String>, Integer> filter_join = join_subreddits.mapToPair(
+                row -> new Tuple2<>(
+                        new Tuple2<>(
+                                row._2()._1(), row._2()._2()),
+                        row._1())
+        ).filter(
+                row -> row._1()._1().compareTo(row._1()._2()) > 0
+        ).distinct().mapToPair(
+                row -> new Tuple2<>(row._1(), 1)
+        ).reduceByKey(Integer::sum).filter(
+                row -> row._2() > 0);
+
+        JavaPairRDD<Integer, Tuple2<String, String>> sorted_subreddits = filter_join.mapToPair(
+                row -> new Tuple2<>(row._2(), row._1())
+        ).sortByKey(false);
+
         // Save results to output paths
         sorted_results.saveAsTextFile(commentsBySubreddit);
         sorted_results_day.saveAsTextFile(countBySubredditDay);
@@ -139,6 +171,7 @@ public class CountBySubreddit {
         score_by_hour.saveAsTextFile(karmaPerHour);
         total_count_day.saveAsTextFile(totalCountDay);
         total_count_hour.saveAsTextFile(totalCountHour);
+        sorted_subreddits.saveAsTextFile(similarSubreddits);
 
     }
 }

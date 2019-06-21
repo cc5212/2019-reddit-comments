@@ -51,16 +51,23 @@ We found the most commented day is Tuesday every week, and the day with signific
 
 The period  of the day  identified with almost double of comments than the hour with least, with are between 05:00 and 15:00 hours UTC±00:00
 
-The five most popular sub reddit in base of the number of comments are the following:
-1. AskReddit
-2. funny
-3. pics
-4. gaming
-5. atheism
+The five most popular sub reddit in base of the number of comments are shown on Image 2:
 
-For the last task we had memory issues, what we did was filtering the data in order to found the most relevant users
+**Image 2**:
+![Imgur](https://i.imgur.com/Y4ZgfLc.jpg)
 
+
+About Game of Thrones, we found the most commented days are those arround the date of release (before and after) as shown on Image 3:
+
+**Image 3**:
+![Imgur](https://i.imgur.com/jw01BgY.jpg)
+
+On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit, as shown on Image 4.
+
+![Imgur](https://i.imgur.com/XYTvRxm.jpg)
 # Conclusion
 
 # Appendix
 
+[Imgur](https://i.imgur.com/ihm24NP.jpg)
+[Imgur](https://i.imgur.com/c0IcG7k.jpg)

@@ -87,7 +87,7 @@ As it is shown, Reddit activity is focused on laboral days, meaning, at least in
 
 In this case, a relevant event like the premiere of each episode of the second season of GoT is followed with peaks of activity in the related subreddits, as predicted. We also found, although we did not include charts, that the number of comments in /r/masseffect is decreasing as the month passes, which makes sense when we consider the third part of the game was launched in March 2012.
 
-Also is curious the fact there's just a few redditors that have comments with more than 100 Karma in at least two subreddits, meaning that it wasn't quite easy to obtain upvotes at the time.
+Also is curious the fact there is just a few redditors that have comments with more than 100 Karma in at least two subreddits, meaning that it was not quite easy to obtain upvotes at the time.
 
 One of the main conclusions is that distributed systems are very helpful to process huge amounts of data is less time. Sadly, we could not do everything we wanted, mostly because external reasons such unexpected behaviours with the cluster, or delays related to technical aspects. But we can say with high confidence, that the last task would have been impossible on a single machine.
 # Appendix

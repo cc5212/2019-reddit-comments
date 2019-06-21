@@ -138,7 +138,7 @@ public class CountBySubreddit {
         // Pairs (author, subreddit), but authors with comments with karma > 100
         JavaPairRDD<String, String> redditors_by_subreddit = inputRDD.filter(row -> Integer.parseInt(row.get(4).toString()) > 100).mapToPair(
                 row -> new Tuple2<String, String>(row.get(2).toString(), row.get(1).toString())
-        );
+        ).distinct();
 
         redditors_by_subreddit.cache(); // cache
 
@@ -157,8 +157,7 @@ public class CountBySubreddit {
                 row -> row._1()._1().compareTo(row._1()._2()) > 0
         ).distinct().mapToPair(
                 row -> new Tuple2<>(row._1(), 1)
-        ).reduceByKey(Integer::sum).filter(
-                row -> row._2() > 0);
+        ).reduceByKey(Integer::sum);
 
         JavaPairRDD<Integer, Tuple2<String, String>> sorted_subreddits = filter_join.mapToPair(
                 row -> new Tuple2<>(row._2(), row._1())

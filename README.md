@@ -3,11 +3,9 @@ General analysis over reddit comments from April 2012, and the influence of worl
 
 **Group 14**
 
--Gustavo Álvarez.
-
--Bastián Matamala.
-
--Tomás Leyton.
+- Gustavo Álvarez.
+- Bastián Matamala.
+- Tomás Leyton.
 
 
 # Overview
@@ -75,7 +73,7 @@ About Game of Thrones, we found the most commented days are those around the dat
 **Image 3**:
 ![Imgur](https://i.imgur.com/jw01BgY.jpg)
 
-On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit, as shown on Image 4, but with a peak in the hours after the airing the episode (consideering that this happens usually at 01:00 AM UTC±00:00)
+On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit (see Appendix), as shown on Image 4, but with a peak in the hours after the airing the episode (consideering that this happens usually at 01:00 AM UTC±00:00)
 
 **Image 4**:
 ![Imgur](https://i.imgur.com/XYTvRxm.jpg)
@@ -94,5 +92,6 @@ Also is curious the fact there's just a few redditors that have comments with mo
 One of the main conclusions is that distributed systems are very helpful to process huge amounts of data is less time. Sadly, we could not do everything we wanted, mostly because external reasons such unexpected behaviours with the cluster, or delays related to technical aspects. But we can say with high confidence, that the last task would have been impossible on a single machine.
 # Appendix
 
-[Count by Hour](https://i.imgur.com/c0IcG7k.jpg)
+[Count by hour](https://i.imgur.com/c0IcG7k.jpg)
+
 [Count by day of the month](https://i.imgur.com/ihm24NP.jpg)

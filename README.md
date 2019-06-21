@@ -52,7 +52,7 @@ We cached the RDDs we were going to use more than one time, but we did not persi
 
 # Results
 
-We had some troubles working with the JSON Object, as the standard library provided for the lab didn't include DataFrames nor a method to read from a JSON. That was fixed downloading the additional libraries, after we failed to parse the data to TSV with PIG (because the comments had line breaks and stuff like that).
+We had some troubles working with the JSON Objects, as the standard library provided for the lab did not include DataFrames nor a method to read from a JSON. That was fixed downloading the additional libraries, after we failed to parse the data to TSV with PIG (because the comments had line breaks and stuff like that).
 
 We also had some troubles trying to use the file compressed in BZ2, with an Index Out of Bounds Exception. A possible explanation is that CBZip2InputStream, which the current version of Hadoop in the server uses to decompress files in this format, is not threadsafe and in result fails when combining with Spark. We solve this issue by decompressing the file before running our Spark job.
 

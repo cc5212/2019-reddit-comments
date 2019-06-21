@@ -10,9 +10,7 @@ The mail goal of the project is perform a exploratory data analysis on reddit co
 * Over all web-page and on specific reddit topic
 2. Number of comments at each hour of the day
 * Over all web-page and on specific reddit topic
-3. Influence of worldwide events on reddit  users behaviour (all web and topic-specific)
-* Avengers première
-* Game of thrones new episode
+3. Influence of worldwide events on reddit  users behaviour (all web and topic-specific) like Game of thrones episode release
 
 # Data
 
@@ -28,10 +26,18 @@ The data contains 19044534 JSON Objects, each object have the following structur
 
 # Methods
 
+We use pig and SPARK to perform a map reduce task as follows:
 
+1. First of all we use pig to read the orginal JSON object input and transform it to a csv format.
+2. The main task was realised on SPARK and consist mainly on counting task.
+3. To map we use  ((subreddit_id, subreddit), value) pairs to map the coments.
+4. Reduce process works counting the number of comments by each subreddit
+
+With this pipeline we can count comments in almost every way we can, for example to count the coments on specific Game of Thrones reddit on a specific day or hour (also both).
 
 
 # Results
+
 
 # Conclusion
 

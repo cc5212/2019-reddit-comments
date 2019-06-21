@@ -16,7 +16,7 @@ The main goal of the project is to perform a exploratory data analysis over redd
 * Over all Reddit and on specific subreddits
 2. Number of comments per hour
 * Over all Reddit and on specific subreddits
-3. The influence of worldwide events on reddit's  users behaviour, and by "worldwide events" we mean the release of the second season of Game of Thrones (we also tried with Avengers, but the movie release was on May).
+3. The influence of worldwide events on Reddit users behaviour, and by "worldwide events" we mean the release of the second season of Game of Thrones (we also tried with Avengers, but the movie release was on May).
 
 # Data
 

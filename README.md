@@ -24,8 +24,6 @@ The data contains 19044534 JSON Objects, each object have the following structur
 **Image 1**:
 ![Imgur](https://i.imgur.com/OvWB9rU.jpg)
 
-
-
 # Methods
 
 We use  SPARK to perform a map reduce task as follows:
@@ -42,8 +40,25 @@ Counting task performed:
 - Counting karma (+1/-1) by hour.
 - Counting comments by day.
 
+As a last task, we tried to find the amount of common redditors (or users) for each pair of subreddits.
+Sadly, as this was such a huge operation, we were forced to limit our search to only valuable redditors: those with comments with more than 100 Karma (score) in each subreddit.
+
 # Results
 
+We have some troubles trying to use the file in bz2 format, the process failed due anomaly HADOOP-10614, described as CBZip2InputStream is not threadsafe. We solve this 
+
+We found the most commented day is Tuesday every week, and the day with significantly fewer comments is Sunday. 
+
+The period  of the day  identified with almost double of comments than the hour with least, with are between 05:00 and 15:00 hours UTC±00:00
+
+The five most popular sub reddit in base of the number of comments are the following:
+1. AskReddit
+2. funny
+3. pics
+4. gaming
+5. atheism
+
+For the last task we had memory issues, what we did was filtering the data in order to found the most relevant users
 
 # Conclusion
 

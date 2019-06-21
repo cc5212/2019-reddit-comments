@@ -24,9 +24,9 @@ The main goal of the project is to perform a exploratory data analysis over redd
 
 Due to the high quantity of comments in Reddit, we worked with only one month of data, Choosing April 2012 because on this month the second season of Game of Thrones was released (every Sunday on HBO), and this was a huge event specially for the Reddit community with a more "geek" profile.
 
-The dataset we used can be found on the following link https://files.pushshift.io/reddit/comments/, where the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1,786,140,247 bytes and once descompressed 10,994,516,204 bytes.
+The dataset we used can be found on the following link https://files.pushshift.io/reddit/comments/, where the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1 786 140 247 bytes and once descompressed 10 994 516 204 bytes.
 
-The data contains, according to the uploader, 19044534 JSON Objects, each object having the following structure as show on Image 1
+The data contains, according to the uploader, 19 044 534 JSON Objects, each object having the following structure as show on Image 1
 
 
 **Image 1**:

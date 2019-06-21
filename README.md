@@ -1,24 +1,24 @@
 # 2019-reddit-comments
-General Analysis of reddit comment on April 2012 and influence of worlwide events, with Apache Spark. (Gustavo Álvarez, Bastián Matamala, Tomás Leyton. Group 14)
+General analysis over reddit comments from April 2012, and the influence of worlwide events on them, with Apache Spark. (Gustavo Álvarez, Bastián Matamala, Tomás Leyton. Group 14)
 
 
 # Overview
 
-The mail goal of the project is perform a exploratory data analysis on reddit coments , our main goal is answer the following questions:
+The main goal of the project is to perform a exploratory data analysis over reddit coments, trying to answer the following questions:
 
-1. Number of comments each day of the month 
-* Over all web-page and on specific reddit topic
-2. Number of comments at each hour of the day
-* Over all web-page and on specific reddit topic
-3. Influence of worldwide events on reddit  users behaviour (all web and topic-specific) like Game of thrones episode release
+1. Number of comments per each day of the month 
+* Over all web-page and on specific subreddits
+2. Number of comments per hour
+* Over all web-page and on specific subreddits
+3. The influence of worldwide events on reddit's  users behaviour, and by "worldwide events" we mean the release of the second season of Game of Thrones (we also tried with Avengers, but the movie release was on May).
 
 # Data
 
-Due to the high quantity of record we worked with only a month of data, the month we choose is April of 2012 because on this month the first movie of avengers was release and also the second season of Game of Thrones, both worldwide events enough relevant to burst the web with user's opinions
+Due to the high quantity of comments in Reddit, we worked with only one month of data, Choosing April 2012 because on this month the second season of Game of Thrones was released (every Sunday on HBO), and this was a huge event specially for the Reddit community with a more "geek" profile.
 
-The file we used can be find in the following link https://files.pushshift.io/reddit/comments/, and the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1,786,140,247 bytes and once descompressed 10,994,516,204 bytes.
+The dataset we used can be found on the following link https://files.pushshift.io/reddit/comments/, where the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1,786,140,247 bytes and once descompressed 10,994,516,204 bytes.
 
-The data contains 19044534 JSON Objects, each object have the following structure as show on Image 1
+The data contains, according to the uploader, 19044534 JSON Objects, each object have the following structure as show on Image 1
 
 
 **Image 1**:
@@ -26,57 +26,67 @@ The data contains 19044534 JSON Objects, each object have the following structur
 
 # Methods
 
-We use  SPARK to perform a map reduce task as follows:
+We use  SPARK to perform a set of map/reduce tasks as follows:
 
-1. To map we use  ((subreddit_id, subreddit), value) pairs to map the coments.
-2. Reduce process works counting the number of comments by each subreddit
+1. To map we use  ((subreddit_id, subreddit), 1) pairs to map the comments per subreddit.
+2. Reduce process works counting the number of comments by each subreddit.
 
-
-With this pipeline we can count comments in almost every way we can, for example to count the coments on specific Game of Thrones reddit on a specific day or hour (also both).
+With this pipeline we can count the comments per subreddit, and then also get the global count. We can, then, filter the results for specifics topics, like r/gameofthrones subreddit. We can also use the hour and day as key, and obtain the counts per timeframe.
 
 Counting task performed:
-- Counting comments by subreddit subreddit everyday (more than 1000 comments).
-- Counting comments by hour across the month for each subreddit.
-- Counting karma (+1/-1) by hour.
-- Counting comments by day.
+- Counting comments by subreddit per day (filtering only those with more than 1000 comments).
+- Counting comments by hour across the month for each subreddit (filtering only those with more than 1250 comments).
+- Counting the total amount of karma (+1/-1) over all comments by hour.
+- Counting the total comments per day and hour across all subreddits.
 
 As a last task, we tried to find the amount of common redditors (or users) for each pair of subreddits.
 Sadly, as this was such a huge operation, we were forced to limit our search to only valuable redditors: those with comments with more than 100 Karma (score) in each subreddit.
 
+We cached the RDDs we were going to use more than one time, but we did not persist. Why? Mostly because errors such Thread Exceptions or Null Pointers Exceptions that did not happened without it. So...
+
 # Results
 
-We have some troubles trying to use the file in bz2 format, the process failed due anomaly HADOOP-10614, described as CBZip2InputStream is not threadsafe. We solve this using new packages.
+We had some troubles working with the JSON Object, as the standard library provided for the lab didn't include DataFrames nor a method to read from a JSON. That was fixed downloading the additional libraries, after we failed to parse the data to TSV with PIG (because the comments had line breaks).
 
-Our runtimes where about 6 to 20 minutes.
+We also had some troubles trying to use the file compressed in BZ2, the process failed in the large file this process. A possible explanation is that CBZip2InputStream, which the current version of Hadoop in the server uses to decompress files in this format, is not threadsafe and fails when combining with Spark. We solve this decompressing the file before running our Spark tasks.
 
-We found the most commented day is Tuesday every week, and the day with significantly fewer comments is Sunday. 
+Our runtimes where about 6 to 20 minutes, the last one when we searched for common valuable redditors though subreddits.
 
-The period  of the day  identified with almost double of comments than the hour with least, with are between 05:00 and 15:00 hours UTC±00:00
+We found the day withs more comments is Tuesday, almost every week, and the day with significantly fewer comments is Sunday. 
 
-The five most popular sub reddit in base of the number of comments are shown on Image 2:
+The hour of the day identified with almost the double of comments than the hour with least, with are between 05:00 and 15:00 hours UTC±00:00
+
+The timeframe with more comments is between 05:00 and 15:00 UTC±00:00, almost doubling the hour with least comments. If we take in consideration the fact that Reddit was used mostly in the US, the results are consistent with the typical sleeping hours of most populated areas in North America.
+
+The most popular subreddits in base of the number of comments are shown on Image 2:
 
 **Image 2**:
 ![Imgur](https://i.imgur.com/Y4ZgfLc.jpg)
 
 
-About Game of Thrones, we found the most commented days are those arround the date of release (before and after) as shown on Image 3:
+About Game of Thrones, we found the most commented days are those around the date of release (before and after) as shown on Image 3, with peaks the day inmediately after their airing:
 
 **Image 3**:
 ![Imgur](https://i.imgur.com/jw01BgY.jpg)
 
-On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit, as shown on Image 4.
+On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit, as shown on Image 4, but with a peak in the hours after the airing the episode (consideering that this happens usually at 01:00 AM UTC±00:00)
 
 **Image 4**:
 ![Imgur](https://i.imgur.com/XYTvRxm.jpg)
 
-Finally, on Image 4 its shown how many users with more than 100 points are in both subreddit. We filter it due to memory issues
+Finally, on Image 4 it is shown the number of valuable users (those with comments with more than 100 points of Karma) per pair of subreddits (just the top ten):
 
 **Image 5**:
 ![Imgur](https://i.imgur.com/oPsbGyy.jpg)
 # Conclusion
+As it is shown, Reddit activity is focused on laboral days, meaning, at least in 2012, it was an important tool for procrastination. Maybe it was not blocked in workplaces networks, like is the usual for Facebook, Instagram or more common social networks.
 
+In this case, a relevant event like the premiere of each episode of the second season of GoT is followed with peaks of activity in the related subreddits, as predicted. We also found, although we did not include charts, that the number of comments in /r/masseffect is decreasing as the month passes, which makes sense when we consider the third part of the game was launched in March 2012.
+
+Also is curious the fact there's just a few redditors that have comments with more than 100 Karma in at least two subreddits, meaning that it wasn't quite easy to obtain upvotes at the time.
+
+One of the main conclusions is that distributed systems are very helpful to process huge amounts of data is less time. Sadly, we could not do everything we wanted, mostly because external reasons such unexpected behaviours with the server, or delays related to technical aspects.
 # Appendix
 
-
 [Count by Hour](https://i.imgur.com/c0IcG7k.jpg)
-[Coun by day of the month](https://i.imgur.com/ihm24NP.jpg)
+[Count by day of the month](https://i.imgur.com/ihm24NP.jpg)

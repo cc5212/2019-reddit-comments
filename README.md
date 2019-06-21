@@ -30,8 +30,8 @@ The data contains 19044534 JSON Objects, each object have the following structur
 
 We use  SPARK to perform a map reduce task as follows:
 
-3. To map we use  ((subreddit_id, subreddit), value) pairs to map the coments.
-4. Reduce process works counting the number of comments by each subreddit
+1. To map we use  ((subreddit_id, subreddit), value) pairs to map the coments.
+2. Reduce process works counting the number of comments by each subreddit
 
 
 With this pipeline we can count comments in almost every way we can, for example to count the coments on specific Game of Thrones reddit on a specific day or hour (also both).

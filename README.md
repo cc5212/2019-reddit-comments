@@ -70,7 +70,7 @@ On the other hand, we found that the most commented hours are not significantly 
 Finally, on Image 4 its shown how many users with more than 100 points are in both subreddit. We filter it due to memory issues
 
 **Image 5**:
-[Imgur](https://i.imgur.com/oPsbGyy.jpg)
+![Imgur](https://i.imgur.com/oPsbGyy.jpg)
 # Conclusion
 
 # Appendix

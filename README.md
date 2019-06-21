@@ -39,10 +39,10 @@ We use pig and SPARK to perform a map reduce task as follows:
 With this pipeline we can count comments in almost every way we can, for example to count the coments on specific Game of Thrones reddit on a specific day or hour (also both).
 
 Counting task performed:
--Counting comments by subreddit subreddit everyday (more than 1000 comments).
--Counting comments by hour across the month for each subreddit.
--Counting karma (+1/-1) by hour.
--Counting comments by day.
+- Counting comments by subreddit subreddit everyday (more than 1000 comments).
+- Counting comments by hour across the month for each subreddit.
+- Counting karma (+1/-1) by hour.
+- Counting comments by day.
 
 # Results
 

@@ -56,7 +56,7 @@ We had some troubles working with the JSON Objects, as the standard library prov
 
 We also had some troubles trying to use the file compressed in BZ2, with an Index Out of Bounds Exception. A possible explanation is that CBZip2InputStream, which the current version of Hadoop in the server uses to decompress files in this format, is not threadsafe and in result fails when combining with Spark. We solve this issue by decompressing the file before running our Spark job.
 
-Our runtimes were about 6 to 20 minutes, the last one when we searched for commons valuable redditors though subreddits.
+Our runtimes were about 6 to 20 minutes, the last one when we searched for common valuable redditors through subreddits.
 
 We found the day with more comments is Tuesday, almost every week, and the day with significantly fewer comments is Sunday. 
 

@@ -28,10 +28,8 @@ The data contains 19044534 JSON Objects, each object have the following structur
 
 # Methods
 
-We use pig and SPARK to perform a map reduce task as follows:
+We use  SPARK to perform a map reduce task as follows:
 
-1. First of all we use pig to read the orginal JSON object input and transform it to a csv format.
-2. The main task was realised on SPARK and consist mainly on counting task.
 3. To map we use  ((subreddit_id, subreddit), value) pairs to map the coments.
 4. Reduce process works counting the number of comments by each subreddit
 

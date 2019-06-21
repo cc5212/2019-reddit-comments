@@ -64,10 +64,17 @@ About Game of Thrones, we found the most commented days are those arround the da
 
 On the other hand, we found that the most commented hours are not significantly different that the rest of Reddit, as shown on Image 4.
 
+**Image 4**:
 ![Imgur](https://i.imgur.com/XYTvRxm.jpg)
+
+Finally, on Image 4 its shown how many users with more than 100 points are in both subreddit. We filter it due to memory issues
+
+**Image 5**:
+[Imgur](https://i.imgur.com/oPsbGyy.jpg)
 # Conclusion
 
 # Appendix
 
-[Imgur](https://i.imgur.com/ihm24NP.jpg)
-[Imgur](https://i.imgur.com/c0IcG7k.jpg)
+
+[Count by Hour](https://i.imgur.com/c0IcG7k.jpg)
+[Coun by day of the month](https://i.imgur.com/ihm24NP.jpg)

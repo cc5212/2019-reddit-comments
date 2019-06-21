@@ -45,7 +45,9 @@ Sadly, as this was such a huge operation, we were forced to limit our search to 
 
 # Results
 
-We have some troubles trying to use the file in bz2 format, the process failed due anomaly HADOOP-10614, described as CBZip2InputStream is not threadsafe. We solve this 
+We have some troubles trying to use the file in bz2 format, the process failed due anomaly HADOOP-10614, described as CBZip2InputStream is not threadsafe. We solve this using new packages.
+
+Our runtimes where about 6 to 20 minutes.
 
 We found the most commented day is Tuesday every week, and the day with significantly fewer comments is Sunday. 
 

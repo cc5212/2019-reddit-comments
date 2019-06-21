@@ -4,8 +4,8 @@ We performed a general analysis over reddit comments from April 2012, and the in
 **Group 14**
 
 - Gustavo Álvarez.
-- Bastián Matamala.
 - Tomás Leyton.
+- Bastián Matamala.
 
 
 # Overview

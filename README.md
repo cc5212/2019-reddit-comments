@@ -26,7 +26,7 @@ Due to the high quantity of comments in Reddit, we worked with only one month of
 
 The dataset we used can be found on the following link https://files.pushshift.io/reddit/comments/, where the comments are stored as a JSON Object. With the original BZIP2 compression its size is 1 786 140 247 bytes and once descompressed 10 994 516 204 bytes.
 
-The data contains, according to the uploader, 19 044 534 JSON Objects, each object having the following structure as show on Image 1
+The data contains, according to the uploader, 19 044 534 JSON Objects, each object having the following structure as it is shown on Image 1
 
 
 **Image 1**:
@@ -34,9 +34,9 @@ The data contains, according to the uploader, 19 044 534 JSON Objects, each obje
 
 # Methods
 
-We use  SPARK to perform a set of map/reduce tasks as follows:
+We used SPARK to perform a set of map/reduce tasks as follows:
 
-1. To map we use  ((subreddit_id, subreddit), 1) pairs to map the comments per subreddit.
+1. To map we use ((subreddit_id, subreddit), 1) pairs to map the number of comments per subreddit.
 2. Reduce process works counting the number of comments by each subreddit.
 
 With this pipeline we can count the comments per subreddit, and then also get the global count. We can, then, filter the results for specifics topics, like r/gameofthrones subreddit. We can also use the hour and day as key, and obtain the counts per timeframe.
@@ -54,15 +54,13 @@ We cached the RDDs we were going to use more than one time, but we did not persi
 
 # Results
 
-We had some troubles working with the JSON Object, as the standard library provided for the lab didn't include DataFrames nor a method to read from a JSON. That was fixed downloading the additional libraries, after we failed to parse the data to TSV with PIG (because the comments had line breaks).
+We had some troubles working with the JSON Object, as the standard library provided for the lab didn't include DataFrames nor a method to read from a JSON. That was fixed downloading the additional libraries, after we failed to parse the data to TSV with PIG (because the comments had line breaks and stuff like that).
 
-We also had some troubles trying to use the file compressed in BZ2, the process failed in the large file this process. A possible explanation is that CBZip2InputStream, which the current version of Hadoop in the server uses to decompress files in this format, is not threadsafe and fails when combining with Spark. We solve this decompressing the file before running our Spark tasks.
+We also had some troubles trying to use the file compressed in BZ2, with an Index Out of Bounds Exception. A possible explanation is that CBZip2InputStream, which the current version of Hadoop in the server uses to decompress files in this format, is not threadsafe and in result fails when combining with Spark. We solve this issue by decompressing the file before running our Spark job.
 
-Our runtimes where about 6 to 20 minutes, the last one when we searched for common valuable redditors though subreddits.
+Our runtimes were about 6 to 20 minutes, the last one when we searched for commons valuable redditors though subreddits.
 
-We found the day withs more comments is Tuesday, almost every week, and the day with significantly fewer comments is Sunday. 
-
-The hour of the day identified with almost the double of comments than the hour with least, with are between 05:00 and 15:00 hours UTC±00:00
+We found the day with more comments is Tuesday, almost every week, and the day with significantly fewer comments is Sunday. 
 
 The timeframe with more comments is between 05:00 and 15:00 UTC±00:00, almost doubling the hour with least comments. If we take in consideration the fact that Reddit was used mostly in the US, the results are consistent with the typical sleeping hours of most populated areas in North America.
 
@@ -87,13 +85,13 @@ Finally, on Image 4 it is shown the number of valuable users (those with comment
 **Image 5**:
 ![Imgur](https://i.imgur.com/oPsbGyy.jpg)
 # Conclusion
-As it is shown, Reddit activity is focused on laboral days, meaning, at least in 2012, it was an important tool for procrastination. Maybe it was not blocked in workplaces networks, like is the usual for Facebook, Instagram or more common social networks.
+As it is shown, Reddit activity is focused on laboral days, meaning, at least in 2012, it was an important tool for procrastination. Maybe it was not blocked in workplaces networks, like is the usual for Facebook, Instagram or other more common social networks.
 
 In this case, a relevant event like the premiere of each episode of the second season of GoT is followed with peaks of activity in the related subreddits, as predicted. We also found, although we did not include charts, that the number of comments in /r/masseffect is decreasing as the month passes, which makes sense when we consider the third part of the game was launched in March 2012.
 
 Also is curious the fact there's just a few redditors that have comments with more than 100 Karma in at least two subreddits, meaning that it wasn't quite easy to obtain upvotes at the time.
 
-One of the main conclusions is that distributed systems are very helpful to process huge amounts of data is less time. Sadly, we could not do everything we wanted, mostly because external reasons such unexpected behaviours with the server, or delays related to technical aspects.
+One of the main conclusions is that distributed systems are very helpful to process huge amounts of data is less time. Sadly, we could not do everything we wanted, mostly because external reasons such unexpected behaviours with the cluster, or delays related to technical aspects. But we can say with high confidence, that the last task would have been impossible on a single machine.
 # Appendix
 
 [Count by Hour](https://i.imgur.com/c0IcG7k.jpg)

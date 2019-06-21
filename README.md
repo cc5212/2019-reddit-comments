@@ -46,7 +46,7 @@ Counting task performed:
 - Counting the total comments per day and hour across all subreddits.
 
 As a last task, we tried to find the amount of common redditors (or users) for each pair of subreddits.
-Sadly, as this was such a huge operation, we were forced to limit our search to only valuable redditors: those with comments with more than 100 Karma (score) in each subreddit.
+Sadly, as this was such a huge operation, we were forced to limit our search to only valuable redditors: those with at least one comment with more than 100 Karma (score) in each subreddit.
 
 We cached the RDDs we were going to use more than one time, but we did not persist. Why? Mostly because errors such Thread Exceptions or Null Pointers Exceptions that did not happened without it. So...
 

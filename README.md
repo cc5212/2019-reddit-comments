@@ -2,8 +2,11 @@
 General analysis over reddit comments from April 2012, and the influence of worlwide events on them, with Apache Spark. 
 
 **Group 14**
+
 -Gustavo Álvarez.
+
 -Bastián Matamala.
+
 -Tomás Leyton.
 
 
